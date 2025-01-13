@@ -1,11 +1,12 @@
 
-
-import axios from "axios"
 import { useState } from "react"
 import Swal from "sweetalert2"
 import useEcomstore from "../../store/ecom-store"
+import { useNavigate } from "react-router-dom"
 
 const Login = () => {
+
+  const navigate = useNavigate()
 
   const actionLogin = useEcomstore((state) => state.actionLogin)
 
@@ -27,7 +28,14 @@ const Login = () => {
     e.preventDefault()
     try {
       const res = await actionLogin(form)
-      console.log(res)
+      const  role  = res.data.payload.role
+      roleRedirect(role)
+      Swal.fire({
+        title: 'Success',
+        text: 'Login successful!',
+        icon: 'success',
+        showConfirmButton: true,
+      });
     } catch (err) {
       Swal.fire({
         title: 'Error',
@@ -36,7 +44,14 @@ const Login = () => {
         showConfirmButton: 'OK',
       });
     }
+  }
 
+  const roleRedirect = (role)=> {
+    if(role === 'admin'){
+      navigate('/admin')
+    }else{
+      navigate('/user')
+    }
   }
 
   return (

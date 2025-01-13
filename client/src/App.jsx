@@ -1,4 +1,4 @@
-import AppRootes from "./rootes/appRootes"
+import AppRootes from "./rootes/AppRootes"
 
 const App = () => {
   return (

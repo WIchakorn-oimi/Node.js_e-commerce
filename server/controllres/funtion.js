@@ -83,7 +83,18 @@ exports.login = async (req, res) => {
 
 exports.currentUser = async (req, res) => {
     try {
-        res.send('currentUser')
+        const user = await prisma.user.findFirst({
+            where: {
+                email: req.user.email
+            },
+            select:{
+                id: true,
+                email:true,
+                name:true,
+                role: true
+            }
+        })
+        res.send({user})
     } catch (err) {
         console.log(err)
         res.status(500).json({ message: "Server Error" })

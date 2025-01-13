@@ -3,7 +3,7 @@
 const HomeUser = () => {
   return (
     <div>
-      suer
+      HomeUser
     </div>
   )
 }
