@@ -1,4 +1,4 @@
-import { createCategory, listCategory, RemoveCategory } from '../../api/Category'
+import { createCategory, RemoveCategory } from '../../api/Category'
 import { useState, useEffect } from 'react'
 import useEcomStore from '../../store/ecom-store'
 import Swal from 'sweetalert2'
@@ -7,31 +7,14 @@ const FormCategory = () => {
 
     const token = useEcomStore((state) => state.token)
     const [name, setName] = useState('')
-    const [categories, setCategories] = useState([])
-
+    // const [categories, setCategories] = useState([])
+    const categories = useEcomStore((state)=>state.categories)
+    const getCategory = useEcomStore((state)=>state.getCategory)
     useEffect(() => {
         getCategory(token)
     }, [])
 
-    const getCategory = async (token) => {
-        try {
-            const res = await listCategory(token)
-            setCategories(res.data)
-            // Swal.fire({
-            //     title: 'Success',
-            //     text: res,
-            //     icon: 'success',
-            //     timer: 1500,
-            // })
-        } catch (err) {
-            Swal.fire({
-                title: 'error',
-                text: err,
-                icon: 'error',
-                showConfirmButton: 'OK',
-            })
-        }
-    }
+
 
 
     const handleSubmit = async (e) => {
