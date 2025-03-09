@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import useEcomstore from '../../store/ecom-store'
 import Swal from 'sweetalert2'
+import Uploadfile from './Uploadfile'
+import { createProduct } from '../../api/product'
 
 
 
@@ -22,6 +24,8 @@ const FormProduct = () => {
     const categories = useEcomstore((state) => state.categories)
     const getProducts = useEcomstore((state) => state.getProducts)
     const products = useEcomstore((state) => state.products)
+
+    // console.log(products)
     const [form, setForm] = useState(initialState)
 
     useEffect(() => {
@@ -30,7 +34,7 @@ const FormProduct = () => {
     }, [])
 
     const handleOnChang = (e) => {
-        console.log(e.target.name, e.target.value)
+        // console.log(e.target.name, e.target.value)
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -76,46 +80,49 @@ const FormProduct = () => {
 
                 </select>
                 <hr />
+                <Uploadfile  form={form} setForm={setForm}/>
                 <button className='bg-blue-200'>Add Product</button>
 
                 <hr />
                 <br />
-                <table className="table-fixed">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Price</th>
-                            <th>quantity</th>
-                            <th>sold</th>
-                            <th>updatedAt</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            products.map((item, index) => {
-                                console.log(item)
-                                return (
-                                    <tr>
-                                        
-                                        <td>{item.title}</td>
-                                        <td>{item.description}</td>
-                                        <td>{item.price}</td>
-                                        <td>{item.quantity}</td>
-                                        <td>{item.sold}</td>
-                                        <td>{item.updateAt}</td>
-                                        <td>
-                                            <p>Edit</p>
-                                            <p>Delete</p>
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
+                <div className="mt-8 overflow-x-auto">
+                    <table className="min-w-full border-collapse table-auto">
+                        <thead>
+                            <tr className="bg-gray-100">
+                                <th className="border px-4 py-2 text-left">Name</th>
+                                <th className="border px-4 py-2 text-left">Description</th>
+                                <th className="border px-4 py-2 text-left">Price</th>
+                                <th className="border px-4 py-2 text-left">quantity</th>
+                                <th className="border px-4 py-2 text-left">sold</th>
+                                <th className="border px-4 py-2 text-left">updatedAt</th>
+                                <th className="border px-4 py-2 text-left">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                products.map((item, index) => {
+                                    // console.log(item)
+                                    return (
+                                        <tr key={index} className="hover:bg-gray-50">
 
-                    </tbody>
-                </table>
+                                            <td className="border px-4 py-2">{item.title}</td>
+                                            <td className="border px-4 py-2">{item.description}</td>
+                                            <td className="border px-4 py-2">{item.price}</td>
+                                            <td className="border px-4 py-2">{item.quantity}</td>
+                                            <td className="border px-4 py-2">{item.sold}</td>
+                                            <td className="border px-4 py-2">{item.updateAt}</td>
+                                            <td className="border px-4 py-2">
+                                                <p className="text-blue-500 hover:text-blue-700 mr-2">Edit</p>
+                                                <p className="text-red-500 hover:text-red-700">Delete</p>
+                                            </td>
+                                        </tr>
+                                    )
+                                })
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
 
             </form>
         </div>
